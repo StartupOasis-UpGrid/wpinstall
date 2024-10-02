@@ -59,7 +59,7 @@ chmod +x /usr/local/bin/wp
 
 useradd -m -c "$domain" -s /bin/bash "$siteuser"
 mkdir -p "/var/www/${domain}"
-chown "$siteuser:$siteuser" "/var/www/${domain}"
+chown "www-data:www-data" "/var/www/${domain}"
 
 cat <<EOF > "/etc/apache2/sites-available/${domain}.conf"
 <VirtualHost *:80>
@@ -67,8 +67,8 @@ cat <<EOF > "/etc/apache2/sites-available/${domain}.conf"
     ServerAlias www.$domain
     ServerAdmin webmaster@localhost
     DocumentRoot /var/www/${domain}
-    ErrorLog ${APACHE_LOG_DIR}/${domain}.error.log
-    CustomLog ${APACHE_LOG_DIR}/${domain}_access.log combined
+    ErrorLog \${APACHE_LOG_DIR}/${domain}.error.log
+    CustomLog \${APACHE_LOG_DIR}/${domain}_access.log combined
 </VirtualHost>
 <Directory /var/www/${domain}/>
     AllowOverride All
