@@ -59,7 +59,7 @@ chmod +x /usr/local/bin/wp
 
 useradd -m -c "$domain" -s /bin/bash "$siteuser"
 mkdir -p "/var/www/${domain}"
-chown "www-data:www-data" "/var/www/${domain}"
+chown "$siteuser:$siteuser" "/var/www/${domain}"
 
 cat <<EOF > "/etc/apache2/sites-available/${domain}.conf"
 <VirtualHost *:80>
@@ -83,3 +83,5 @@ su -c "cd /var/www/${domain} && \
 /usr/local/bin/wp core download --path='/var/www/${domain}' && \
 /usr/local/bin/wp config create --dbhost='$dbhost' --dbname='$db' --dbuser='$dbuser' --dbpass='$dbpass' && \
 /usr/local/bin/wp core install --url='$domain' --title='$domain' --admin_user='$wpadmin' --admin_password='$wppass' --admin_email='admin@domain.tld'" -s /bin/bash $siteuser
+
+chown "www-data:www-data" "/var/www/${domain}"
